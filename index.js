@@ -1,6 +1,5 @@
 const pdfjsLib = require('pdfjs-dist');
 
-// let pdfList = ['hsbc-hk', 'hsbc-us', 'hsbc-us-card', 'so-cal-edison'];
 let pdfList = ['bank-crawfordtech'];
 
 pdfList.forEach(function (fn) {
@@ -38,12 +37,14 @@ pdfList.forEach(function (fn) {
                 .getTextContent()
                 .then(function (content) {
 
+                    // prints each text item with x, y coordinations
                     let strings = content.items.map(function (item) {
                         return "(" + item.transform[4] + "," + item.transform[5] + ")" + item.str.trim();
                     });
                     console.log("## Text Content - " + fn);
                     console.log(strings.join("|"));
 
+                    // prints each text item per line align
                     let lastY, text = '';
                     for (let item of content.items) {
                         if (!lastY || Math.abs(lastY - item.transform[5]) < 2) {
